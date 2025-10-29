@@ -9,8 +9,12 @@ app.use(express.json());
 
 app.use("/todos", todoRoutes)
 
+app.use((error, req, res, next) => {
+    res.status(500).json({ message: error.message });
+})
+
 app.get('/', (req, res) => {
-    res.send('res test')
+    res.send('express test')
 });
 
 // app.listen(3015, () => {
