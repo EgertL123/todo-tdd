@@ -72,4 +72,15 @@ describe(endpointUrl, () => {
         .send(testData);
         expect(res.statusCode).toBe(404);
     })
+
+    it("DELETE " + endpointUrl + "/:todoId should delete and return 200", async () => {
+        const res = await request(app).delete(`${endpointUrl}/${todoId}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body._id).toBe(todoId);
+    });
+
+    it("DELETE not found should return 404", async () => {
+        const res = await request(app).delete(`${endpointUrl}/6901d2ded00a98c7604bb222`);
+        expect(res.statusCode).toBe(404);
+    });
 });

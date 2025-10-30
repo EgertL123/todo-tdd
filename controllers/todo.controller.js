@@ -48,9 +48,30 @@ const getTodoById = async (req, res, next) => {
         }
     }
 
+const mongoose = require('mongoose');
+
+deleteTodo = async (req, res, next) => {
+    try {
+        const { todoId } = req.params;
+
+        if (!mongoose.isValidObjectId(todoId)) {
+            return res.status(404).send();
+        }
+
+        const deletedTodo = await TodoModel.findByIdAndDelete(todoId);
+        if (!deletedTodo) {
+            return res.status(404).send();
+        }
+        return res.status(200).json(deletedTodo);
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     createTodo,
     getTodos,
     getTodoById,
-    updateTodo
+    updateTodo,
+    deleteTodo
 }
